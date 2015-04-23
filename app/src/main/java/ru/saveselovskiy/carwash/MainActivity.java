@@ -25,7 +25,7 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 
 
 public class MainActivity extends ActionBarActivity {
-
+    private Drawer.Result drawerResult = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        new Drawer()
+        drawerResult = new Drawer()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withActionBarDrawerToggle(true)
@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
                         new PrimaryDrawerItem().withName("Мои авто").withIdentifier(1),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName("Автомойки"),
-                        new PrimaryDrawerItem().withName("История").withIcon(FontAwesome.Icon.faw_eye).withBadge("6").withIdentifier(3)).withOnDrawerListener(new Drawer.OnDrawerListener() {
+                        new PrimaryDrawerItem().withName("История")).withOnDrawerListener(new Drawer.OnDrawerListener() {
             @Override
             public void onDrawerOpened(View drawerView) {
                 // Скрываем клавиатуру при открытии Navigation Drawer
@@ -59,14 +59,14 @@ public class MainActivity extends ActionBarActivity {
                 .build();
     }
 
-//    public void onBackPressed() {
-//        // Закрываем Navigation Drawer по нажатию системной кнопки "Назад" если он открыт
-//        if (drawerResult.isDrawerOpen()) {
-//            drawerResult.closeDrawer();
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
+    public void onBackPressed() {
+        // Закрываем Navigation Drawer по нажатию системной кнопки "Назад" если он открыт
+        if (drawerResult.isDrawerOpen()) {
+            drawerResult.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
