@@ -22,10 +22,14 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
+import ru.saveselovskiy.carwash.MapFragment.MyFragment;
 
 
 public class MainActivity extends ActionBarActivity {
     private Drawer.Result drawerResult = null;
+    final String MAP_TAG = "MAP";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,17 +49,33 @@ public class MainActivity extends ActionBarActivity {
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName("Автомойки"),
                         new PrimaryDrawerItem().withName("История")).withOnDrawerListener(new Drawer.OnDrawerListener() {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // Скрываем клавиатуру при открытии Navigation Drawer
-                InputMethodManager inputMethodManager = (InputMethodManager) MainActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(MainActivity.this.getCurrentFocus().getWindowToken(), 0);
-            }
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        // Скрываем клавиатуру при открытии Navigation Drawer
+                        InputMethodManager inputMethodManager = (InputMethodManager) MainActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(MainActivity.this.getCurrentFocus().getWindowToken(), 0);
+                    }
 
-            @Override
-            public void onDrawerClosed(View drawerView) {
-            }
-        })
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                    }
+                }).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    Fragment current;
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
+                        if (i == 3) {
+                            MyFragment newFragment = new MyFragment();
+                            getFragmentManager().beginTransaction().add(R.id.parent_container, newFragment, MAP_TAG).commit();
+                            current = newFragment;
+                        } else {
+                            if (current != null) {
+                                getFragmentManager().beginTransaction().remove(current).commit();
+                                current = null;
+                            }
+                        }
+                    }
+                })
                 .build();
     }
 
