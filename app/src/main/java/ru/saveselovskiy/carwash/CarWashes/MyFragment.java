@@ -103,11 +103,11 @@ public class MyFragment extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         FragmentManager fm = getFragmentManager();
-        fragment = (MapFragment)fm.findFragmentById(R.id.map);
-        if (fragment == null) {
+//        fragment = (MapFragment)fm.findFragmentById(R.id.map);
+//        if (fragment == null) {
             fragment = MapFragment.newInstance();
             fm.beginTransaction().replace(R.id.map, fragment).commit();
-        }
+//        }
     }
 
     @Override

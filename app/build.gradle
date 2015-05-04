@@ -17,6 +17,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    signingConfigs {
+        debug {
+            storeFile file("/Users/sergejveselovskij/Android/keys.jks")//"C:/Users/Sergey/AndroidStudioProjects/keyStore/keys.jks")//
+            storePassword "serga464"
+            keyAlias "CarWash"
+            keyPassword "serga464"
+        }
+        release {
+            storeFile file("/Users/sergejveselovskij/Android/keys.jks")//"C:/Users/Sergey/AndroidstudioProjects/keyStore/keys.jks")//
+            storePassword "serga464"
+            keyAlias "CarWash"
+            keyPassword "serga464"
+        }
+    }
 }
 
 dependencies {
