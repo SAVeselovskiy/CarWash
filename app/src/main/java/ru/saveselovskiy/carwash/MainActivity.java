@@ -1,35 +1,39 @@
 package ru.saveselovskiy.carwash;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
-import com.mikepenz.iconics.typeface.FontAwesome;
+import com.google.android.gms.maps.model.LatLng;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import ru.saveselovskiy.carwash.MapFragment.MyFragment;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import ru.saveselovskiy.carwash.CarWashes.CarWashesList;
+import ru.saveselovskiy.carwash.CarWashes.MyFragment;
+import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
+import ru.saveselovskiy.carwash.CarwashAdapter.CarWashes;
+import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
 
 
 public class MainActivity extends ActionBarActivity {
     private Drawer.Result drawerResult = null;
     final String MAP_TAG = "MAP";
+    Fragment current;
+    Fragment mapFragment;
+    Fragment listFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,8 @@ public class MainActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
         drawerResult = new Drawer()
                 .withActivity(this)
@@ -60,14 +66,16 @@ public class MainActivity extends ActionBarActivity {
                     public void onDrawerClosed(View drawerView) {
                     }
                 }).withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    Fragment current;
+
 
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
                         if (i == 3) {
-                            MyFragment newFragment = new MyFragment();
-                            getFragmentManager().beginTransaction().add(R.id.parent_container, newFragment, MAP_TAG).commit();
-                            current = newFragment;
+                            if(current instanceof MyFragment || current instanceof CarWashesList) return;
+                            CarWashesList newList = new CarWashesList();
+                            getFragmentManager().beginTransaction().add(R.id.parent_container,newList, "TAG").commit();
+                            current = newList;
+//                            listFragment = newList;
                         } else {
                             if (current != null) {
                                 getFragmentManager().beginTransaction().remove(current).commit();
@@ -77,6 +85,9 @@ public class MainActivity extends ActionBarActivity {
                     }
                 })
                 .build();
+        CarWashesList newList = new CarWashesList();
+        getFragmentManager().beginTransaction().add(R.id.parent_container,newList, "TAG").commit();
+        current = newList;
     }
 
     public void onBackPressed() {
@@ -103,8 +114,33 @@ public class MainActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.map_switcher) {
+            if (current instanceof  MyFragment){
+//                if (listFragment == null) {
+//                    getFragmentManager().beginTransaction().detach(current).commit();
+                    CarWashesList newList = new CarWashesList();
+                    getFragmentManager().beginTransaction().remove(current).add(R.id.parent_container, newList, "TAG").commit();
+                    current = newList;
+//                    listFragment = newList;
+//                }
+//                else{
+//                    getFragmentManager().beginTransaction().detach(current).attach(listFragment).commit();
+//                    current = listFragment;
+//                }
+            }
+            else{
+//                if (mapFragment == null) {
+
+                    MyFragment newFragment = new MyFragment();
+                    getFragmentManager().beginTransaction().detach(current).add(R.id.parent_container, newFragment, MAP_TAG).commit();
+                    current = newFragment;
+//                    mapFragment = newFragment;
+//                }
+//                else{
+//                    getFragmentManager().beginTransaction().detach(current).attach(mapFragment).commit();
+//                    current = mapFragment;
+//                }
+            }
         }
 
         return super.onOptionsItemSelected(item);

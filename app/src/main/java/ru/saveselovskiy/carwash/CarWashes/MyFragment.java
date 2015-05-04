@@ -1,4 +1,4 @@
-package ru.saveselovskiy.carwash.MapFragment;
+package ru.saveselovskiy.carwash.CarWashes;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -145,7 +145,7 @@ public class MyFragment extends Fragment{
         builder.include(coords);
         mMap.addMarker(new MarkerOptions()
                         .position(coords)
-                        .title(String.valueOf(count))
+                        .title("test")
         );
         if (count == 0) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 12));
