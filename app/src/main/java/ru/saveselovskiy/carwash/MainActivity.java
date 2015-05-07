@@ -1,9 +1,14 @@
 package ru.saveselovskiy.carwash;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.internal.view.menu.ActionMenuItem;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,20 +75,24 @@ public class MainActivity extends ActionBarActivity {
 
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
+                        ActionMenuItemView switcher = (ActionMenuItemView)findViewById(R.id.map_switcher);
                         if (i == 3) {
+                            switcher.setVisibility(View.VISIBLE);
                             if(current instanceof MyFragment || current instanceof CarWashesList) return;
                             CarWashesList newList = new CarWashesList();
                             getFragmentManager().beginTransaction().add(R.id.parent_container,newList, "TAG").commit();
                             current = newList;
 //                            listFragment = newList;
                         } else {
+                            switcher.setVisibility(View.GONE);
                             if (current != null) {
                                 getFragmentManager().beginTransaction().remove(current).commit();
                                 current = null;
                             }
+                            setTitle("CarWash");
                         }
                     }
-                })
+                }).withSelectedItem(2)
                 .build();
         CarWashesList newList = new CarWashesList();
         getFragmentManager().beginTransaction().add(R.id.parent_container,newList, "TAG").commit();
@@ -95,7 +104,17 @@ public class MainActivity extends ActionBarActivity {
         if (drawerResult.isDrawerOpen()) {
             drawerResult.closeDrawer();
         } else {
-            super.onBackPressed();
+            new AlertDialog.Builder(this)
+                    .setTitle("Выйти из приложения?")
+                    .setMessage("Вы действительно хотите выйти?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            logout();
+                            finish();
+
+                        }
+                    }).create().show();
         }
     }
 
@@ -121,6 +140,7 @@ public class MainActivity extends ActionBarActivity {
                     CarWashesList newList = new CarWashesList();
                     getFragmentManager().beginTransaction().remove(current).add(R.id.parent_container, newList, "TAG").commit();
                     current = newList;
+                item.setIcon(R.drawable.map_icon);
 //                    listFragment = newList;
 //                }
 //                else{
@@ -134,6 +154,7 @@ public class MainActivity extends ActionBarActivity {
                     MyFragment newFragment = new MyFragment();
                     getFragmentManager().beginTransaction().detach(current).add(R.id.parent_container, newFragment, MAP_TAG).commit();
                     current = newFragment;
+                item.setIcon(R.drawable.list_icon);
 //                    mapFragment = newFragment;
 //                }
 //                else{
@@ -144,5 +165,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout(){
+        SharedPreferences account = getSharedPreferences("CurrentUser",0);
+        SharedPreferences.Editor editor = account.edit();
+        editor.remove("id");
+        editor.remove("token");
+        editor.commit();
     }
 }

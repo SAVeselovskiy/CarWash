@@ -51,6 +51,8 @@ public class MyFragment extends Fragment{
 
     String[] address_buildings;
 
+    ArrayList<String> names = new ArrayList<String>();
+
     String[] id_buildings;
 
     public MyFragment(){
@@ -89,13 +91,14 @@ public class MyFragment extends Fragment{
         for (int i = 0; i < array.length; i++) {
             LatLng point = new LatLng(array[i].latitude, array[i].longitude);
             geopoint_buildings.add(i,point);
+            names.add(i,array[i].name);
         }
         return rootView;
     }
 
     @Override
     public void onResume() {
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//        ((ActionBarActivity) getActivity()).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         super.onResume();
         if (mMap == null) {
             fragment.getMapAsync(new OnMapReadyCallback() {
@@ -111,12 +114,12 @@ public class MyFragment extends Fragment{
         }
     }
 
-    public void showObject(LatLng coords) {
+    public void showObject(LatLng coords, String name) {
         count--;
         builder.include(coords);
         mMap.addMarker(new MarkerOptions()
                         .position(coords)
-                        .title("test")
+                        .title(name)
         );
         if (count == 0) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 12));
@@ -143,7 +146,7 @@ public class MyFragment extends Fragment{
     public void loadInfo() {
         if (geopoint_buildings != null) {
             for (int j = 0; j < geopoint_buildings.size(); j++) {
-                showObject(geopoint_buildings.get(j));
+                showObject(geopoint_buildings.get(j), names.get(j));
                 count++;
             }
         }

@@ -47,6 +47,7 @@ public class CarWashesList extends Fragment{
             CarWashesAdapter adapter = new CarWashesAdapter(getActivity(), carWashes);
             rootView.setAdapter(adapter);
             CarWashesStorage.setCarWashes(carWashes);
+            return rootView;
         }
         RestAdapter carWashAdapter = CarWashAdapter.getAdapter();
         CarwashesWorker carwashesWorker = carWashAdapter.create(CarwashesWorker.class);
@@ -64,9 +65,6 @@ public class CarWashesList extends Fragment{
 
             }
         });
-
-
-
 
         return rootView;
     }
