@@ -1,4 +1,4 @@
-package ru.saveselovskiy.carwash.CarwashAdapter;
+package ru.saveselovskiy.carwash.RestAdapter;
 
 import com.google.gson.annotations.SerializedName;
 
