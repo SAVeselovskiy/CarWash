@@ -17,6 +17,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
+import ru.saveselovskiy.carwash.MainActivity;
 import ru.saveselovskiy.carwash.R;
 
 /**
@@ -36,29 +37,31 @@ public class TimetableListFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View timetable = super.onCreateView(inflater, container, savedInstanceState);
+        final View timetable = inflater.inflate(R.layout.timetable, container,
+                false);
         progressBar = (ProgressBar)timetable.findViewById(R.id.timetable_progress);
         records = (ListView)timetable.findViewById(R.id.timetable_list);
         RestAdapter carWashAdapter = CarWashAdapter.getAdapter();
-        records.setVisibility(View.GONE);
+//        records.setVisibility(View.INVISIBLE);
 
         CarwashesWorker carwashesWorker = carWashAdapter.create(CarwashesWorker.class);
         carwashesWorker.loadTimetable(carwash.id, new Callback<Timetable>() {
             @Override
             public void success(Timetable timetable, Response response) {
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.INVISIBLE);
+//                records.setVisibility(View.VISIBLE);
                 TimeTableListAdapter adapter = new TimeTableListAdapter(getActivity(),timetable.recordArray);
                 records.setAdapter(adapter);
-                records.setVisibility(View.VISIBLE);
+
             }
 
             @Override
             public void failure(RetrofitError error) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Не удалось обновить список." + error.getMessage())
+                builder.setTitle("Error." + error.getMessage())
                         .setMessage(error.getMessage())
                         .setCancelable(false)
-                        .setNegativeButton("ОК",
+                        .setNegativeButton("OK",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();

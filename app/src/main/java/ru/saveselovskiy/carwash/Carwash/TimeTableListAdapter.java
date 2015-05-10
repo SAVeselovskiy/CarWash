@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,7 @@ public class TimeTableListAdapter extends BaseAdapter{
     }
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
+        Log.d("myLog","i'm in get view");
         if(convertView==null)
             vi = inflater.inflate(R.layout.timetable, null);
         int hour = Integer.parseInt(getDate(data[position].date));
@@ -59,7 +61,7 @@ public class TimeTableListAdapter extends BaseAdapter{
         if (hour != position){
             vi.setBackgroundColor(Color.GRAY);
             TextView info = (TextView)vi.findViewById(R.id.timetable_item_info);
-            info.setText("Занято, бля*!!!");
+            info.setText("5пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ*!!!");
             return vi;
         }
 

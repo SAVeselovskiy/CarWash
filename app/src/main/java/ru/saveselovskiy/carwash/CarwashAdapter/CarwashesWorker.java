@@ -25,6 +25,6 @@ public interface CarwashesWorker {
     @GET("/users/{id}")
     public void  loadUserWithId(@Path("id") int id, Callback<User> callback);
 
-    @GET("carwashes/{id}/timetable")
+    @GET("/carwashes/{id}/timetable")
     public void loadTimetable(@Path("id") int id, Callback<Timetable> callback);
 }

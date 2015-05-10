@@ -22,6 +22,7 @@ import ru.saveselovskiy.carwash.Carwash.TimetableListFragment;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashes;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
+import ru.saveselovskiy.carwash.MainActivity;
 import ru.saveselovskiy.carwash.R;
 
 /**
@@ -88,9 +89,10 @@ public class CarWashesList extends Fragment{
         rootView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                TimetableListFragment timetable = new TimetableListFragment();
-//                timetable.carwash = list[position];
-//                getFragmentManager().beginTransaction().add(timetable,"timatable").commit();
+                TimetableListFragment timetable = new TimetableListFragment();
+                timetable.carwash = list[position];
+                MainActivity upActivity = (MainActivity)getActivity();
+                getActivity().getFragmentManager().beginTransaction().remove(upActivity.current).add(timetable,"timatable").commit();
             }
         });
 

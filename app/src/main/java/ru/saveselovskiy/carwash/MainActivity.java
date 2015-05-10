@@ -38,11 +38,11 @@ import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
 public class MainActivity extends ActionBarActivity {
     private Drawer.Result drawerResult = null;
     final String MAP_TAG = "MAP";
-    Fragment current;
+   public Fragment current;
     Stack<Fragment> navigationStack = new Stack<Fragment>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
