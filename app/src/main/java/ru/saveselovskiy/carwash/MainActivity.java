@@ -22,6 +22,8 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import java.util.Stack;
+
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -37,8 +39,8 @@ public class MainActivity extends ActionBarActivity {
     private Drawer.Result drawerResult = null;
     final String MAP_TAG = "MAP";
     Fragment current;
-    Fragment mapFragment;
-    Fragment listFragment;
+    Stack<Fragment> navigationStack = new Stack<Fragment>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
                             CarWashesList newList = new CarWashesList();
                             getFragmentManager().beginTransaction().add(R.id.parent_container,newList, "TAG").commit();
                             current = newList;
-//                            listFragment = newList;
+//                            navigationStack.add(current);
                         } else {
                             switcher.setVisibility(View.GONE);
                             if (current != null) {
@@ -135,33 +137,20 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.map_switcher) {
             if (current instanceof  MyFragment){
-//                if (listFragment == null) {
-//                    getFragmentManager().beginTransaction().detach(current).commit();
-                    CarWashesList newList = new CarWashesList();
-                    getFragmentManager().beginTransaction().remove(current).add(R.id.parent_container, newList, "TAG").commit();
-                    current = newList;
+                CarWashesList newList = new CarWashesList();
+                getFragmentManager().beginTransaction().remove(current).add(R.id.parent_container, newList, "TAG").commit();
+                current = newList;
                 item.setIcon(R.drawable.map_icon);
-//                    listFragment = newList;
-//                }
-//                else{
-//                    getFragmentManager().beginTransaction().detach(current).attach(listFragment).commit();
-//                    current = listFragment;
-//                }
             }
             else{
-//                if (mapFragment == null) {
-
-                    MyFragment newFragment = new MyFragment();
-                    getFragmentManager().beginTransaction().detach(current).add(R.id.parent_container, newFragment, MAP_TAG).commit();
-                    current = newFragment;
+                MyFragment newFragment = new MyFragment();
+                getFragmentManager().beginTransaction().detach(current).add(R.id.parent_container, newFragment, MAP_TAG).commit();
+                current = newFragment;
                 item.setIcon(R.drawable.list_icon);
-//                    mapFragment = newFragment;
-//                }
-//                else{
-//                    getFragmentManager().beginTransaction().detach(current).attach(mapFragment).commit();
-//                    current = mapFragment;
-//                }
+
             }
+//            navigationStack.removeAllElements();
+//            navigationStack.add(current);
         }
 
         return super.onOptionsItemSelected(item);

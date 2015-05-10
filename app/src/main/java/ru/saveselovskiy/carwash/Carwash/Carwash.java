@@ -24,4 +24,7 @@ public class Carwash {
 
     @SerializedName("work_time_till")
     public String to;
+
+    @SerializedName("id")
+    public int id;
 }

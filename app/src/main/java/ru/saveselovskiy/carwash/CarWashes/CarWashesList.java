@@ -1,11 +1,14 @@
 package ru.saveselovskiy.carwash.CarWashes;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -15,6 +18,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import ru.saveselovskiy.carwash.CarWashModel.CarWashesStorage;
 import ru.saveselovskiy.carwash.Carwash.Carwash;
+import ru.saveselovskiy.carwash.Carwash.TimetableListFragment;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashes;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
@@ -27,6 +31,9 @@ public class CarWashesList extends Fragment{
     public static CarWashesList newInstance(){
         return new CarWashesList();
     }
+
+    private Carwash[] list;
+
     public CarWashesList(){
 
     }
@@ -56,13 +63,34 @@ public class CarWashesList extends Fragment{
             public void success(CarWashes carWashes, Response response) {
                 CarWashesAdapter adapter = new CarWashesAdapter(getActivity(), carWashes.carWashes);
                 rootView.setAdapter(adapter);
+                list = carWashes.carWashes;
                 CarWashesStorage.setCarWashes(carWashes.carWashes);
             }
 
             @Override
             public void failure(RetrofitError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Не удалось обновить список." + error.getMessage())
+                        .setMessage(error.getMessage())
+                        .setCancelable(false)
+                        .setNegativeButton("ОК",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                AlertDialog alert = builder.create();
+                alert.show();
 
+            }
+        });
 
+        rootView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                TimetableListFragment timetable = new TimetableListFragment();
+//                timetable.carwash = list[position];
+//                getFragmentManager().beginTransaction().add(timetable,"timatable").commit();
             }
         });
 

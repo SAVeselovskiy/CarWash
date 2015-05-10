@@ -58,7 +58,16 @@ public class CarWashesAdapter extends BaseAdapter{
         distance.setText("7 км");
         distance.setGravity(Gravity.CENTER);
         TextView hours = (TextView)vi.findViewById(R.id.hours);
-        hours.setText(data[position].from + " - " + data[position].to);
+
+        String from = data[position].from;
+        String[] array = from.split(" ");
+        String fromTime = array[1];
+        String to = data[position].to;
+        array = to.split(" ");
+        String toTime = array[1];
+        fromTime = fromTime.substring(0,8);
+        toTime = toTime.substring(0,8);
+        hours.setText(fromTime + " - " + toTime);
 
         return vi;
     }

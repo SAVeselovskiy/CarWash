@@ -86,7 +86,7 @@ public class Login extends Activity {
                         public void failure(RetrofitError error) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
                             builder.setTitle("Авторизация не удалась")
-                                    .setMessage("Неверный логин или пароль")
+                                    .setMessage(error.getMessage())
                                     .setCancelable(false)
                                     .setNegativeButton("ОК",
                                             new DialogInterface.OnClickListener() {
