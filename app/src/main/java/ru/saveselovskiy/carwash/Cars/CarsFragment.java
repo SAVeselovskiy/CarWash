@@ -1,8 +1,10 @@
-package ru.saveselovskiy.carwash.CarWashes;
+package ru.saveselovskiy.carwash.Cars;
 
-import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,56 +14,55 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import ru.saveselovskiy.carwash.CarWashModel.CarWashesStorage;
-import ru.saveselovskiy.carwash.Carwash.Carwash;
 import ru.saveselovskiy.carwash.RestAdapter.CarWashAdapter;
-import ru.saveselovskiy.carwash.RestAdapter.CarWashes;
 import ru.saveselovskiy.carwash.RestAdapter.CarwashesWorker;
 import ru.saveselovskiy.carwash.R;
 
 /**
- * Created by Sergey on 04.05.2015.
+ * Created by ellinakuznecova on 10.05.15.
  */
-public class CarWashesList extends Fragment{
-    public static CarWashesList newInstance(){
-        return new CarWashesList();
+public class CarsFragment extends Fragment {
+    public static CarsFragment newInstance(){
+        return new CarsFragment();
     }
-    public CarWashesList(){
+    public CarsFragment(){
 
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Автомойки");
+        getActivity().setTitle("Мои машины");
 //        setRetainInstance(true);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final ListView rootView = (ListView)inflater.inflate(R.layout.washes_list, container,
+        final ListView rootView = (ListView)inflater.inflate(R.layout.cars_fragment, container,
                 false);
-        if (CarWashesStorage.getCarWashes()!=null){
-            Carwash[] carWashes = CarWashesStorage.getCarWashes();
-            CarWashesAdapter adapter = new CarWashesAdapter(getActivity(), carWashes);
+        if (CarsStorage.cars!=null){
+            Log.d("myLogs","in1");
+            Car[] cars = CarsStorage.cars;
+            CarsAdapter adapter = new CarsAdapter(getActivity(),cars);
             rootView.setAdapter(adapter);
-            CarWashesStorage.setCarWashes(carWashes);
             return rootView;
         }
+        Log.d("myLogs","in2");
+        SharedPreferences account = getActivity().getSharedPreferences("CurrentUser", 0);
         RestAdapter carWashAdapter = CarWashAdapter.getAdapter();
         CarwashesWorker carwashesWorker = carWashAdapter.create(CarwashesWorker.class);
-        carwashesWorker.getWashes(new Callback<CarWashes>() {
+        carwashesWorker.loadUsersCars(account.getInt("id",0),new Callback<Cars>() {
             @Override
-            public void success(CarWashes carWashes, Response response) {
-                CarWashesAdapter adapter = new CarWashesAdapter(getActivity(), carWashes.carWashes);
+            public void success(Cars cars, Response response) {
+                Log.d("myLogs","in3");
+                CarsStorage.setCars(cars.cars);
+                CarsAdapter adapter = new CarsAdapter(getActivity(),cars.cars);
                 rootView.setAdapter(adapter);
-                CarWashesStorage.setCarWashes(carWashes.carWashes);
             }
 
             @Override
             public void failure(RetrofitError error) {
-
-
+                Log.d("myLogs",error.getMessage());
             }
         });
 

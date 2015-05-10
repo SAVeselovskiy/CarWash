@@ -4,6 +4,8 @@ import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import ru.saveselovskiy.carwash.Cars.Cars;
+import ru.saveselovskiy.carwash.Cars.CarsStorage;
 import ru.saveselovskiy.carwash.Carwash.Carwash;
 import ru.saveselovskiy.carwash.Login.AuthData;
 
@@ -22,4 +24,7 @@ public interface CarwashesWorker {
 
     @GET("/users/{id}")
     public void  loadUserWithId(@Path("id") int id, Callback callback);
+
+    @GET("/users/{id}/cars")
+    public void loadUsersCars(@Path("id") int id, Callback<Cars> callback);
 }

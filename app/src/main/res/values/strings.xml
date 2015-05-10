@@ -4,4 +4,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="test">Test</string>
+    
+    <string-array name="cars">
+        <item>mini</item>
+        <item>sedan</item>
+        <item>crossover</item>
+        <item>minibus</item>
+    </string-array>
 </resources>
