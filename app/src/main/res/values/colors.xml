@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="mainPartBackground">#F3F3F3</color>
+    <color name="black">#000</color>
+    <color name="grey">#ff5d5d5d</color>
 </resources>

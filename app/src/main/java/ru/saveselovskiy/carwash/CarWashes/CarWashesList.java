@@ -1,8 +1,6 @@
 package ru.saveselovskiy.carwash.CarWashes;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,6 +16,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import ru.saveselovskiy.carwash.CarWashModel.CarWashesStorage;
 import ru.saveselovskiy.carwash.Carwash.Carwash;
+import ru.saveselovskiy.carwash.RestAdapter.CarWashAdapter;
+import ru.saveselovskiy.carwash.RestAdapter.CarWashes;
+import ru.saveselovskiy.carwash.RestAdapter.CarwashesWorker;
 import ru.saveselovskiy.carwash.Carwash.TimetableListFragment;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashes;

@@ -30,6 +30,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import ru.saveselovskiy.carwash.CarWashes.CarWashesList;
 import ru.saveselovskiy.carwash.CarWashes.MyFragment;
+import ru.saveselovskiy.carwash.Cars.CarsFragment;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashes;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
@@ -38,11 +39,11 @@ import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
 public class MainActivity extends ActionBarActivity {
     private Drawer.Result drawerResult = null;
     final String MAP_TAG = "MAP";
-   public Fragment current;
-    Stack<Fragment> navigationStack = new Stack<Fragment>();
-
+    Fragment current;
+    Fragment mapFragment;
+    Fragment listFragment;
     @Override
-     public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -84,8 +85,16 @@ public class MainActivity extends ActionBarActivity {
                             CarWashesList newList = new CarWashesList();
                             getFragmentManager().beginTransaction().add(R.id.parent_container,newList, "TAG").commit();
                             current = newList;
-//                            navigationStack.add(current);
-                        } else {
+//                            listFragment = newList;
+                        }
+                        else if (i==1) {
+                            switcher.setVisibility(View.VISIBLE);
+                            if(current instanceof CarsFragment) return;
+                            CarsFragment carsFragment = new CarsFragment();
+                            getFragmentManager().beginTransaction().add(R.id.parent_container,carsFragment, "TAG").commit();
+                            current = carsFragment;
+                        }
+                        else {
                             switcher.setVisibility(View.GONE);
                             if (current != null) {
                                 getFragmentManager().beginTransaction().remove(current).commit();
@@ -137,20 +146,33 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.map_switcher) {
             if (current instanceof  MyFragment){
-                CarWashesList newList = new CarWashesList();
-                getFragmentManager().beginTransaction().remove(current).add(R.id.parent_container, newList, "TAG").commit();
-                current = newList;
+//                if (listFragment == null) {
+//                    getFragmentManager().beginTransaction().detach(current).commit();
+                    CarWashesList newList = new CarWashesList();
+                    getFragmentManager().beginTransaction().remove(current).add(R.id.parent_container, newList, "TAG").commit();
+                    current = newList;
                 item.setIcon(R.drawable.map_icon);
+//                    listFragment = newList;
+//                }
+//                else{
+//                    getFragmentManager().beginTransaction().detach(current).attach(listFragment).commit();
+//                    current = listFragment;
+//                }
             }
             else{
-                MyFragment newFragment = new MyFragment();
-                getFragmentManager().beginTransaction().detach(current).add(R.id.parent_container, newFragment, MAP_TAG).commit();
-                current = newFragment;
-                item.setIcon(R.drawable.list_icon);
+//                if (mapFragment == null) {
 
+                    MyFragment newFragment = new MyFragment();
+                    getFragmentManager().beginTransaction().detach(current).add(R.id.parent_container, newFragment, MAP_TAG).commit();
+                    current = newFragment;
+                item.setIcon(R.drawable.list_icon);
+//                    mapFragment = newFragment;
+//                }
+//                else{
+//                    getFragmentManager().beginTransaction().detach(current).attach(mapFragment).commit();
+//                    current = mapFragment;
+//                }
             }
-//            navigationStack.removeAllElements();
-//            navigationStack.add(current);
         }
 
         return super.onOptionsItemSelected(item);
