@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.internal.view.menu.ActionMenuItem;
 import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,24 +15,15 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import java.util.Stack;
-
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import ru.saveselovskiy.carwash.CarWashes.CarWashesList;
 import ru.saveselovskiy.carwash.CarWashes.MyFragment;
 import ru.saveselovskiy.carwash.Cars.CarsFragment;
-import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
-import ru.saveselovskiy.carwash.CarwashAdapter.CarWashes;
-import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
+//import ru.saveselovskiy.carwash.RestAdapter
 
 
 public class MainActivity extends ActionBarActivity {

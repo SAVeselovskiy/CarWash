@@ -14,8 +14,8 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import ru.saveselovskiy.carwash.RestAdapter.CarWashAdapter;
-import ru.saveselovskiy.carwash.RestAdapter.CarwashesWorker;
+import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
+import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
 import ru.saveselovskiy.carwash.MainActivity;
 import ru.saveselovskiy.carwash.R;
 

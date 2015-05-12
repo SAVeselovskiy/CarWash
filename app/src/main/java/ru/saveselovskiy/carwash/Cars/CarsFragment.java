@@ -14,8 +14,9 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import ru.saveselovskiy.carwash.RestAdapter.CarWashAdapter;
-import ru.saveselovskiy.carwash.RestAdapter.CarwashesWorker;
+import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
+//import ru.saveselovskiy.carwash.RestAdapter.CarwashesWorker;
+import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
 import ru.saveselovskiy.carwash.R;
 
 /**
@@ -55,6 +56,8 @@ public class CarsFragment extends Fragment {
             @Override
             public void success(Cars cars, Response response) {
                 Log.d("myLogs","in3");
+
+
                 CarsStorage.setCars(cars.cars);
                 CarsAdapter adapter = new CarsAdapter(getActivity(),cars.cars);
                 rootView.setAdapter(adapter);

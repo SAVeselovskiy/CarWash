@@ -1,13 +1,14 @@
 package ru.saveselovskiy.carwash.CarWashes;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import retrofit.Callback;
@@ -16,13 +17,10 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import ru.saveselovskiy.carwash.CarWashModel.CarWashesStorage;
 import ru.saveselovskiy.carwash.Carwash.Carwash;
-import ru.saveselovskiy.carwash.RestAdapter.CarWashAdapter;
-import ru.saveselovskiy.carwash.RestAdapter.CarWashes;
-import ru.saveselovskiy.carwash.RestAdapter.CarwashesWorker;
-import ru.saveselovskiy.carwash.Carwash.TimetableListFragment;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashes;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
+import ru.saveselovskiy.carwash.Carwash.TimetableListFragment;
 import ru.saveselovskiy.carwash.MainActivity;
 import ru.saveselovskiy.carwash.R;
 
@@ -93,7 +91,7 @@ public class CarWashesList extends Fragment{
                 TimetableListFragment timetable = new TimetableListFragment();
                 timetable.carwash = list[position];
                 MainActivity upActivity = (MainActivity)getActivity();
-                getActivity().getFragmentManager().beginTransaction().remove(upActivity.current).add(timetable,"timatable").commit();
+//                getActivity().getFragmentManager().beginTransaction().remove(upActivity.current).add(timetable,"timatable").commit();
             }
         });
 
