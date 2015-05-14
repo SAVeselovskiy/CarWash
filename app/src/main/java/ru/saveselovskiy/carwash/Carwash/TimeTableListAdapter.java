@@ -13,7 +13,9 @@ import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import ru.saveselovskiy.carwash.R;
 
@@ -45,26 +47,28 @@ public class TimeTableListAdapter extends BaseAdapter{
     }
     public static String getDate(long time)
     {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(time);
-        String date = DateFormat.format("HH", cal).toString();
-        return date;
+        Date date = new Date(time); // *1000 is to convert seconds to milliseconds
+        SimpleDateFormat sdf = new SimpleDateFormat("HH"); // the format of your date
+        String formattedDate = sdf.format(date);
+        return formattedDate;
     }
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
         Log.d("myLog","i'm in get view");
         if(convertView==null)
-            vi = inflater.inflate(R.layout.timetable, null);
+            vi = inflater.inflate(R.layout.timetable_item, null);
         int hour = Integer.parseInt(getDate(data[position].date));
         TextView time = (TextView)vi.findViewById(R.id.timetable_time);
-        time.setText(hour + ":00");
-        if (hour != position){
+        time.setText(position + ":00");
+        TextView info = (TextView)vi.findViewById(R.id.timetable_item_info);
+        if (hour == position){
             vi.setBackgroundColor(Color.GRAY);
-            TextView info = (TextView)vi.findViewById(R.id.timetable_item_info);
-            info.setText("5������, ���*!!!");
+
+            info.setText("ЗАНЯТО");
             return vi;
         }
-
+        vi.setBackgroundColor(Color.TRANSPARENT);
+        info.setText("");
 
         return vi;
     }

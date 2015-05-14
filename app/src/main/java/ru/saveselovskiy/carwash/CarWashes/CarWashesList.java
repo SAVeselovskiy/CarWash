@@ -17,11 +17,11 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import ru.saveselovskiy.carwash.CarWashModel.CarWashesStorage;
 import ru.saveselovskiy.carwash.Carwash.Carwash;
+//import ru.saveselovskiy.carwash.Carwash.TimetableActivity;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashAdapter;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarWashes;
 import ru.saveselovskiy.carwash.CarwashAdapter.CarwashesWorker;
 import ru.saveselovskiy.carwash.Carwash.TimetableListFragment;
-import ru.saveselovskiy.carwash.MainActivity;
 import ru.saveselovskiy.carwash.R;
 
 /**
@@ -90,8 +90,13 @@ public class CarWashesList extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TimetableListFragment timetable = new TimetableListFragment();
                 timetable.carwash = list[position];
-                MainActivity upActivity = (MainActivity)getActivity();
-//                getActivity().getFragmentManager().beginTransaction().remove(upActivity.current).add(timetable,"timatable").commit();
+//                MainActivity upActivity = (MainActivity)getActivity();
+                getActivity().getFragmentManager().beginTransaction().replace(R.id.parent_container, timetable, "timetable").commit();
+//                getActivity().getFragmentManager().beginTransaction().show(timetable).commit();
+//                Intent intent = new Intent(getActivity(), TimetableActivity.class);
+//                intent.putExtra("id",list[position].id);
+//                intent.putExtra("name",list[position].name);
+//                startActivity(intent);
             }
         });
 

@@ -23,6 +23,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import ru.saveselovskiy.carwash.CarWashes.CarWashesList;
 import ru.saveselovskiy.carwash.CarWashes.MyFragment;
 import ru.saveselovskiy.carwash.Cars.CarsFragment;
+import ru.saveselovskiy.carwash.Carwash.TimetableListFragment;
 //import ru.saveselovskiy.carwash.RestAdapter
 
 
@@ -68,23 +69,22 @@ public class MainActivity extends ActionBarActivity {
 
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l, IDrawerItem iDrawerItem) {
-                        ActionMenuItemView switcher = (ActionMenuItemView)findViewById(R.id.map_switcher);
+                        ActionMenuItemView switcher = (ActionMenuItemView) findViewById(R.id.map_switcher);
                         if (i == 3) {
                             switcher.setVisibility(View.VISIBLE);
-                            if(current instanceof MyFragment || current instanceof CarWashesList) return;
+                            if (current instanceof MyFragment || current instanceof CarWashesList)
+                                return;
                             CarWashesList newList = new CarWashesList();
-                            getFragmentManager().beginTransaction().add(R.id.parent_container,newList, "TAG").commit();
+                            getFragmentManager().beginTransaction().remove(current).add(R.id.parent_container, newList, "TAG").commit();
                             current = newList;
 //                            listFragment = newList;
-                        }
-                        else if (i==1) {
+                        } else if (i == 1) {
                             switcher.setVisibility(View.VISIBLE);
-                            if(current instanceof CarsFragment) return;
+                            if (current instanceof CarsFragment) return;
                             CarsFragment carsFragment = new CarsFragment();
-                            getFragmentManager().beginTransaction().add(R.id.parent_container,carsFragment, "TAG").commit();
+                            getFragmentManager().beginTransaction().remove(current).add(R.id.parent_container, carsFragment, "TAG").commit();
                             current = carsFragment;
-                        }
-                        else {
+                        } else {
                             switcher.setVisibility(View.GONE);
                             if (current != null) {
                                 getFragmentManager().beginTransaction().remove(current).commit();

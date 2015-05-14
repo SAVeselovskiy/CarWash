@@ -1,12 +1,15 @@
 package ru.saveselovskiy.carwash.CarwashAdapter;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
 import ru.saveselovskiy.carwash.Cars.Cars;
 import ru.saveselovskiy.carwash.Carwash.Carwash;
 import ru.saveselovskiy.carwash.Carwash.Timetable;
+import ru.saveselovskiy.carwash.Carwash.newRecord;
 import ru.saveselovskiy.carwash.Login.AuthData;
 
 /**
@@ -30,4 +33,6 @@ public interface CarwashesWorker {
 
     @GET("/carwashes/{id}/timetable")
     public void loadTimetable(@Path("id") int id, Callback<Timetable> callback);
+    @POST("/carwashes/{id}/timetable")
+    public void postRecord(@Path("id") int id,@Body newRecord record);
 }

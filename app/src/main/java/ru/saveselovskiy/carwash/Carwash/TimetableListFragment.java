@@ -8,8 +8,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import com.google.android.gms.drive.events.ProgressEvent;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -25,6 +29,8 @@ import ru.saveselovskiy.carwash.R;
  */
 public class TimetableListFragment extends Fragment{
     public Carwash carwash;
+    public int id;
+    public String name;
     private ListView records;
     private ProgressBar progressBar;
     public static TimetableListFragment newInstance(){
@@ -37,20 +43,30 @@ public class TimetableListFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View timetable = inflater.inflate(R.layout.timetable, container,
+        final View timetableView = inflater.inflate(R.layout.timetable, container,
                 false);
-        progressBar = (ProgressBar)timetable.findViewById(R.id.timetable_progress);
-        records = (ListView)timetable.findViewById(R.id.timetable_list);
+         records = (ListView)timetableView.findViewById(R.id.timetable_list);
+        progressBar = (ProgressBar)timetableView.findViewById(R.id.progressBar);
         RestAdapter carWashAdapter = CarWashAdapter.getAdapter();
-//        records.setVisibility(View.INVISIBLE);
+        records.setVisibility(View.INVISIBLE);
+        records.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        records.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            }
+        });
         CarwashesWorker carwashesWorker = carWashAdapter.create(CarwashesWorker.class);
         carwashesWorker.loadTimetable(carwash.id, new Callback<Timetable>() {
             @Override
             public void success(Timetable timetable, Response response) {
-//                progressBar.setVisibility(View.INVISIBLE);
-//                records.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
+                records.setVisibility(View.VISIBLE);
+
                 TimeTableListAdapter adapter = new TimeTableListAdapter(getActivity(),timetable.recordArray);
+                String[] array = {"Cat","Dog","Bird"};
+
+                ArrayAdapter<String> adapterS = new ArrayAdapter<String>(getActivity(),R.layout.test_item,array);
                 records.setAdapter(adapter);
 
             }
@@ -72,7 +88,7 @@ public class TimetableListFragment extends Fragment{
             }
         });
 
-        return null;
+        return timetableView;
     }
 
     @Override
