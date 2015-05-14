@@ -51,35 +51,7 @@ public class TimetableListFragment extends Fragment{
         final RestAdapter carWashAdapter = CarWashAdapter.getAdapter();
         records.setVisibility(View.INVISIBLE);
         records.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        records.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CarwashesWorker carwashesWorker = carWashAdapter.create(CarwashesWorker.class);
-                carwashesWorker.postRecord(carwash.id, "2015-05-14 13:00:00", "stark99", 3, 2, new Callback() {
-                    @Override
-                    public void success(Object o, Response response) {
-                        Toast toast = Toast.makeText(getActivity(),"Запись проведена успешно",Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Error." + error.getMessage())
-                                .setMessage(error.getMessage())
-                                .setCancelable(false)
-                                .setNegativeButton("OK",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                dialog.cancel();
-                                            }
-                                        });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                    }
-                });
-            }
-        });
         CarwashesWorker carwashesWorker = carWashAdapter.create(CarwashesWorker.class);
         carwashesWorker.loadTimetable(carwash.id, new Callback<Timetable>() {
             @Override

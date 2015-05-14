@@ -20,14 +20,14 @@ android {
     signingConfigs {
         debug {
 //            storeFile file("/Users/sergejveselovskij/Android/keys.jks")//"C:/Users/Sergey/AndroidStudioProjects/keyStore/keys.jks")//
-            storeFile file("C:/Users/Sergey/.AndroidStudio/keyStore/keys.jks")
+            storeFile file("/Users/ellinakuznecova/Android/CarWash/keys.jks");//"C:/Users/Sergey/.AndroidStudio/keyStore/keys.jks")
             storePassword "serga464"
             keyAlias "CarWash"
             keyPassword "serga464"
         }
         release {
 //            storeFile file("/Users/sergejveselovskij/Android/keys.jks")//"C:/Users/Sergey/AndroidstudioProjects/keyStore/keys.jks")//
-            storeFile file("C:/Users/Sergey/.AndroidStudio/keyStore/keys.jks")
+            storeFile file("/Users/ellinakuznecova/Android/CarWash/keys.jks");//"C:/Users/Sergey/.AndroidStudio/keyStore/keys.jks")
             storePassword "serga464"
             keyAlias "CarWash"
             keyPassword "serga464"
