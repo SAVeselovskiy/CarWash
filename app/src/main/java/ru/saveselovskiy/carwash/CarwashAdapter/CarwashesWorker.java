@@ -33,6 +33,8 @@ public interface CarwashesWorker {
 
     @GET("/carwashes/{id}/timetable")
     public void loadTimetable(@Path("id") int id, Callback<Timetable> callback);
+
     @POST("/carwashes/{id}/timetable")
-    public void postRecord(@Path("id") int id,@Body newRecord record);
+    public void postRecord(@Path("id") int id,@Path("date") String date, @Path("carnum") String carnum,
+                           @Path("washingType") int washingType, @Path("customerType") int type, Callback callback);//@Body newRecord record);
 }
